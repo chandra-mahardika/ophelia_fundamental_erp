@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/transactions"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL_TX")
+}
+
+// ---------------------------------------------------------------------------
+// DB transaksional (db_ophelia_system). Saat ini belum ada model:
+// modul sample `products` sudah dihapus dan akan diganti modul ERP baru.
+//
+// KONVENSI WAJIB untuk setiap model transaksional baru (multi-company):
+//   companyId Int      // referensi logis ke companies.id di DB admin
+//                      // (tanpa FK cross-database)
+//   @@index([companyId])
+// Semua query wajib di-scope ke company aktif (lihat resolveCompany +
+// requireModule di src/middlewares/company.middleware.ts).
+// ---------------------------------------------------------------------------

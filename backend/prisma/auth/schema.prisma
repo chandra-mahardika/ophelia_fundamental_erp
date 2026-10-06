@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/auth"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL_AUTH")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String
+  username  String     @unique
+  email     String     @unique
+  password  String
+  userRoles UserRole[]
+  companies UserCompany[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  name        String           @unique
+  userRoles   UserRole[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  user   User @relation(fields: [userId], references: [id])
+  role   Role @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Permission {
+  id    Int              @id @default(autoincrement())
+  name  String           @unique
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  role         Role       @relation(fields: [roleId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+// ---------------------------------------------------------------------------
+// Multi-company & modular ERP (ala Odoo). Tinggal di DB admin karena ini soal
+// identitas/tenancy. Tabel transaksional di DB system hanya menyimpan
+// `companyId` sebagai referensi logis (tanpa FK cross-database).
+// ---------------------------------------------------------------------------
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String   @unique
+  address   String?
+  phone     String?
+  email     String?
+  logoUrl   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members UserCompany[]
+  modules CompanyModule[]
+
+  @@map("companies")
+}
+
+model UserCompany {
+  userId    Int
+  companyId Int
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@id([userId, companyId])
+  @@map("user_companies")
+}
+
+model Module {
+  code        String   @id
+  name        String
+  description String?
+  version     String   @default("1.0.0")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  companies CompanyModule[]
+
+  @@map("modules")
+}
+
+model CompanyModule {
+  companyId   Int
+  moduleCode  String
+  isInstalled Boolean   @default(true)
+  installedAt DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  module  Module  @relation(fields: [moduleCode], references: [code], onDelete: Cascade)
+
+  @@id([companyId, moduleCode])
+  @@map("company_modules")
+}
