@@ -1,4 +1,4 @@
-# Dokumentasi Teknis Ophelia Fundamental ERP
+# Dokumentasi Teknis Ophelia Express Fundamental ERP
 
 **Author:** Chandra Mahardika — chandra.libertania@gmail.com
 

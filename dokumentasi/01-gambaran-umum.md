@@ -2,7 +2,7 @@
 
 ## Visi
 
-**Ophelia Express** adalah ERP modular ala Odoo: satu aplikasi, banyak company,
+**Ophelia Express Fundamental ERP** adalah ERP modular ala Odoo: satu aplikasi, banyak company,
 modul bisnis yang bisa di-install per company (inventory, sales, accounting, HR, ...).
 
 ## Tiga Pilar Konsep

@@ -1,4 +1,4 @@
-# Ophelia Fundamental ERP
+# Ophelia Express Fundamental ERP
 
 **Author:** Chandra Mahardika — chandra.libertania@gmail.com
 
@@ -8,7 +8,7 @@
 
 ## Visi
 
-**Ophelia Fundamental ERP** adalah ERP modular ala Odoo: satu aplikasi, banyak company, modul bisnis yang bisa di-install per company (inventory, sales, accounting, HR, ...). Dibangun dengan arsitektur backend **layered-architecture** dan **modular-monolith**.
+**Ophelia Express Fundamental ERP** adalah ERP modular ala Odoo: satu aplikasi, banyak company, modul bisnis yang bisa di-install per company (inventory, sales, accounting, HR, ...). Dibangun dengan arsitektur backend **layered-architecture** dan **modular-monolith**.
 
 ## Tiga Pilar Konsep
 
